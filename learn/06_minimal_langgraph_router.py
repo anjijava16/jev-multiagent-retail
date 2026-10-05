@@ -24,6 +24,7 @@ def classify(s: S) -> dict:
         "type": "choice", "instructions": "The customer's main request",
         "criteria": {"order_status": "Where is an order", "return_refund": "Return or refund",
                      "other": "Anything else"}}})["intent"]
+    print(a)
     return {"intent": a.choice, "confidence": a.confidence}
 
 
@@ -54,6 +55,9 @@ for n in ("order", "returns", "human"):
     g.add_edge(n, END)
 app = g.compile()
 
-for m in ["Where is SS-10421?", "I want to return my jacket", "asdf"]:
+for m in [
+        #"Where is SS-10421?"
+           "I want to return my jacket", "asdf"
+          ]:
     out = app.invoke({"message": m})
     print(f"{m:<30} intent={out['intent']:<14} conf={out['confidence']:.2f} -> {out['reply']}")
