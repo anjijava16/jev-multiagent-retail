@@ -10,6 +10,7 @@ never get a stack trace because a model was down.
 """
 from __future__ import annotations
 
+import json
 import logging
 
 from . import config
@@ -25,6 +26,10 @@ GROUNDING_RULES = (
 )
 
 
+def build_user_prompt(task: str, facts: dict) -> str:
+    return f"TASK:\n{task}\n\nFACTS:\n{json.dumps(facts, indent=2, default=str)}"
+
+
 def complete(model: str, task: str, facts: dict, fallback: str) -> tuple[str, str]:
     """Return (text, source) where source is the model name or 'template'."""
     if config.use_mock_llm():
@@ -37,7 +42,7 @@ def complete(model: str, task: str, facts: dict, fallback: str) -> tuple[str, st
             temperature=0.2,
             messages=[
                 {"role": "system", "content": GROUNDING_RULES},
-                {"role": "user", "content": f"TASK:\n{task}\n\nFACTS:\n{facts}"},
+                {"role": "user", "content": build_user_prompt(task, facts)},
             ],
         )
         return resp.choices[0].message.content.strip(), model
