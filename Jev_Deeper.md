@@ -79,3 +79,11 @@ Score:
 
 
 Noul
+
+
+# Jev 
+Jev is by TypeSafe. 
+# Laya
+Project 11 also uses Laya, an open decision model from Convai Innovations, licensed Apache 2.0. The app reviews used as test data in projects 04, 06 and 11 are public app-store reviews.
+
+
